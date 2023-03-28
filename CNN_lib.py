@@ -4,46 +4,15 @@ A solely NumPy-based, PyTorch-like library for building CNN
 import numpy as np
 import time
 
+# in most part of this lib, 
+#   indata = input data
+#   outdata = output data
+#   ingrad = local gradient of input data,
+#   outgrad = local gradient of output data
+
 # --------------------------------------------------------------------------------------------------
-class Linear:
-
-    def __init__(self, fan_in, fan_out, bias=True, model_mode='forward'):
-        self.weight = np.random.randn(fan_in, fan_out) * np.sqrt(2 / fan_in)
-        self.bias = np.zeros((1, fan_out)) if bias else None
-        self.weight_grad = np.zeros_like(self.weight)
-        self.bias_grad = np.zeros_like(self.bias) if bias else None
-        self.model_mode = model_mode
-        self.layer_info = f'Linear(in_features={fan_in}, out_features={fan_out}, bias={bias})'
-        self.name = 'Linear    '
-
-    def __repr__(self):
-        return self.layer_info
-
-    def __call__(self, x):
-        assert (self.model_mode == 'forward' or self.model_mode == 'backward')
-        if self.model_mode == 'forward':
-            # forward mode
-            # x will be data for input
-            self.input = x 
-            self.output = self.input @ self.weight
-            if self.bias is not None:
-                self.output += self.bias
-            return self.output
-        elif self.model_mode == 'backward':
-            # backprop mode
-            # x will be gradient of output 
-            if self.bias is not None:
-                self.bias_grad = np.mean(x, axis=0)
-            self.weight_grad = self.input.T @ x
-            return x @ self.weight.T
-
-    def parameters(self):
-        return [self.weight] + ([] if self.bias is None else [self.bias])
-    
-    def gradients(self):
-        return [self.weight_grad] + ([] if self.bias is None else [self.bias_grad])
-     
-# --------------------------------------------------------------------------------------------------
+# input size: (N, Cin, H, W) = (batch size, input channels, height, width)
+# output size: (N, Cout, Hout, Wout) = (batch size, output channels, output height, output width)
 class Conv2d:
 
     def __init__(self, in_channels, out_channels, kernel_size, stride=1, padding=0, bias=True, model_mode='forward'):
@@ -156,6 +125,47 @@ class Conv2d:
         return out 
     
 # --------------------------------------------------------------------------------------------------
+class Linear:
+
+    def __init__(self, fan_in, fan_out, bias=True, model_mode='forward'):
+        self.weight = np.random.randn(fan_in, fan_out) * np.sqrt(2 / fan_in)
+        self.bias = np.zeros((1, fan_out)) if bias else None
+        self.weight_grad = np.zeros_like(self.weight)
+        self.bias_grad = np.zeros_like(self.bias) if bias else None
+        self.model_mode = model_mode
+        self.layer_info = f'Linear(in_features={fan_in}, out_features={fan_out}, bias={bias})'
+        self.name = 'Linear    '
+
+    def __repr__(self):
+        return self.layer_info
+
+    def __call__(self, x):
+        assert (self.model_mode == 'forward' or self.model_mode == 'backward')
+        if self.model_mode == 'forward':
+            # forward mode
+            # x will be data for input
+            self.input = x 
+            self.output = self.input @ self.weight
+            if self.bias is not None:
+                self.output += self.bias
+            return self.output
+        elif self.model_mode == 'backward':
+            # backprop mode
+            # x will be gradient of output 
+            if self.bias is not None:
+                self.bias_grad = np.mean(x, axis=0)
+            self.weight_grad = self.input.T @ x
+            return x @ self.weight.T
+
+    def parameters(self):
+        return [self.weight] + ([] if self.bias is None else [self.bias])
+    
+    def gradients(self):
+        return [self.weight_grad] + ([] if self.bias is None else [self.bias_grad])
+     
+# --------------------------------------------------------------------------------------------------
+# input size: (N, C, H, W) = (batch size, channels, height, width)
+# output size: (N, C, Hout, Wout) = (batch size, channels, output height, output width)
 class MaxPool2d:
 
     def __init__(self, kernel_size=2, stride=2, padding=0, model_mode='forward'):
@@ -239,12 +249,14 @@ class MaxPool2d:
 
         return ingrad
     
+    # add P zero padding to the input data
     def zero_padding(self, indata, P):
         N, in_channels, H, W = indata.shape
         padded_indata = np.zeros((N, in_channels, H+2*P, W+2*P))
         padded_indata[:, :, P:P+H, P:P+W] = indata
         return padded_indata
     
+    # remove the zero paddings
     def un_padding(self, indata):
         if self.padding != 0:
             out = indata[:, :, self.padding:-self.padding, self.padding:-self.padding]
@@ -259,6 +271,7 @@ class MaxPool2d:
         return []
     
 # --------------------------------------------------------------------------------------------------
+# input size = output size
 class ReLU:
 
     def __init__(self, model_mode='forward'):
@@ -290,6 +303,7 @@ class ReLU:
         return []
 
 # --------------------------------------------------------------------------------------------------
+# input size = output size
 class Flatten:
 
     def __init__(self, model_mode='forward'):
@@ -365,6 +379,7 @@ class Sequential:
     def gradients(self):
         return [g for layer in self.layers for g in layer.gradients()]
     
+    # switch model between forward and backward mode
     def set_mode(self, mode):
         assert (mode == 'forward' or mode == 'backward')
         self.model_mode = mode
@@ -405,6 +420,7 @@ class Cross_entropy:
         self.model(probs_grad)
         self.model.set_mode('forward') # set model back to forward mode 
 
+    # return loss value
     def item(self):
         return self.loss
 
@@ -420,6 +436,7 @@ class SGD:
             param -= self.lr * grad
 
 # --------------------------------------------------------------------------------------------------
+# take the datasets as input, partition it into mini batches (shuffle it if shuufle==true).
 def DataLoader(images, labels, batch_size, shuffle):
     # total number and dimension of image data
     N, H, W = images.shape
