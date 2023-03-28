@@ -5,12 +5,6 @@ This is a fully NumPy-based CNN model with PyTorch-style APIs. I tried to replic
 ### Example usage
 
 I used this library to build a LeNet, and trained with MNIST datasets. 
----------------------------
-CNN architechture: LeNet 
-Datasets: MNIST 
-Training duration: 1 epoch 
-Test accuracy: ~97% 
----------------------------
 
 ```python
 model = Sequential(
@@ -27,6 +21,15 @@ model = Sequential(
     ReLU(),
     Linear(84, 10),
     )
+```
+### Perform forward and backward pass
+
+```python
+# forward
+loss = Cross_entropy(model, images, labels)
+
+# backward
+loss.backward()
 ```
 
 Training this model for 1 epoch takes roughly 7 minutes on my Apple M1 chip, while training an equivalent model using PyTorch takes 20 seconds. 
