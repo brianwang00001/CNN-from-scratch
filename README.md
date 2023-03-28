@@ -69,7 +69,7 @@ Iterations : 6000
 Like PyTorch, we can adjust our CNN models to arbitrary layer arrangements, channels, conv kernel and maxpooling kernel sizes, strides, zeropaddings, etc. The autograd engine (naive version, of course) will do the backprop automatically.
 
 ### Classify MNIST images with trained model
-<img src="https://github.com/brianwang00001/CNN-from-scratch/blob/40f898cd73535191c634425a07ef7ce389442534/classify_results.png" width=525 alt="classify_result"/>
+<img src="https://github.com/brianwang00001/CNN-from-scratch/blob/f6ab2bbf926e58a1262b2616800e2dfc2a0bbd96/classify_results.png" width=525 alt="classify_result"/>
 
 ## See a complete demo in Demo.ipynb!
 
