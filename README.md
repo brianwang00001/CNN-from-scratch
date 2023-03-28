@@ -44,6 +44,30 @@ model.save_model('pretrained_model')
 model.load_model('pretrained_model.npy')
 ```
 
+### A not-too-slow NumPy implementation
+On average, a fully forward-backward-update process takes 0.072 second (LeNet, batch_size=10, on Apple M1 chip). 
+
+```
+		forward		backward
+Conv2d    |	82.165s		213.087s
+ReLU      |	0.583s		0.653s
+MaxPool2d |	9.966s		45.161s
+Conv2d    |	16.570s		46.622s
+ReLU      |	0.244s		0.713s
+MaxPool2d |	2.853s		7.918s
+Flatten   |	0.170s		0.020s
+Linear    |	0.793s		1.357s
+ReLU      |	0.059s		0.111s
+Linear    |	0.178s		0.337s
+ReLU      |	0.041s		0.103s
+Linear    |	0.051s		0.182s
+----------------------------------------
+Total forward + backward time : 429.9369s
+Iterations : 6000
+```
+### A not-too-rigid API
+Like PyTorch, we can adjust our CNN models to arbitrary layer arrangements, channels, conv kernel and maxpooling kernel sizes, strides, zeropaddings, etc. The autograd engine (naive version, of course) will do the backprop automatically.
+
 ### Classify MNIST images with trained model
 <img src="https://github.com/brianwang00001/CNN-from-scratch/blob/40f898cd73535191c634425a07ef7ce389442534/classify_results.png" width=525 alt="classify_result"/>
 
