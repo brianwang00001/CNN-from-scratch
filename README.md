@@ -1,8 +1,10 @@
 # Convolutional Neural Network (CNN) from scratch
 
-This is a fully NumPy-based CNN model with PyTorch-style APIs. I tried to replicate some functions in the torch library like nn.Sequential, nn.Conv2d, a naive version of Autograd engine, etc. You might find some of the expressions in this programme quite familiar. Btw my favourite one is loss.backward() :)
+This is a fully NumPy-based CNN library with PyTorch-style APIs. I tried to replicate some functions in the torch library like nn.Sequential, nn.Conv2d, a naive version of Autograd engine, etc. You might find some of the expressions in this programme quite familiar. Btw my favourite one is loss.backward() :)
 
-### Example usage
+## Example usage
+
+### Build model
 
 I used this library to build a LeNet, and trained with MNIST datasets. (Note that I replaced the sigmoid in the original LeNet with ReLU, and used MaxPooling rather than AveragePooling. Other model specs are completely the same.)
 
