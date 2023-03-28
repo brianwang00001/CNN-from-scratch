@@ -371,7 +371,7 @@ class Sequential:
             for i, layer in enumerate(reversed(self.layers)):
                 starting_time = time.time()
                 x = layer(x)
-                self.backward_time[f'layer {len(self.layers)-1-i}'] += time.time() - starting_time
+                self.backward_time[f'layer {len(self.layers)-1-i}'] += time.time() - starting_time 
             return x 
     
     def parameters(self):
