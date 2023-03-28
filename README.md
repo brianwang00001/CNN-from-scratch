@@ -1,8 +1,10 @@
 # Convolutional Neural Network (CNN) from scratch
 
-This is a fully NumPy-based CNN model with PyTorch-style APIs. I tried to replicate some functions in the torch library like nn.Sequential, nn.Conv2d, a naive version of Autograd engine, etc. You might find some of the expressions in this programme quite familiar. Btw my favourite one is loss.backward() :)
+This is a fully NumPy-based CNN library with PyTorch-style APIs. I tried to replicate some functions in the torch library like nn.Sequential, nn.Conv2d, a naive version of Autograd engine, etc. You might find some of the expressions in this programme quite familiar. Btw my favourite one is loss.backward() :)
 
-### Example usage
+## Example usage
+
+### Build model
 
 I used this library to build a LeNet, and trained with MNIST datasets. (Note that I replaced the sigmoid in the original LeNet with ReLU, and used MaxPooling rather than AveragePooling. Other model specs are completely the same.)
 
@@ -33,8 +35,18 @@ loss = Cross_entropy(model, images, labels)
 # backward
 loss.backward()
 ```
+
+### Save and load pre-trained models
+
+```python
+model.save_model('pretrained_model')
+
+model.load_model('pretrained_model.npy')
+```
+
 ### Classify MNIST images with trained model
 <img src="https://github.com/brianwang00001/CNN-from-scratch/blob/40f898cd73535191c634425a07ef7ce389442534/classify_results.png" width=525 alt="classify_result"/>
 
+## See a complete demo in Demo.ipynb!
 
 
