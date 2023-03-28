@@ -34,7 +34,7 @@ loss = Cross_entropy(model, images, labels)
 loss.backward()
 ```
 ### Classify MNIST images with trained model
-![alt text](classify_results.png)
+![image text](classify_results.png)
 
 
 
