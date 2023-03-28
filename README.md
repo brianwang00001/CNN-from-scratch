@@ -4,7 +4,7 @@ This is a fully NumPy-based CNN model with PyTorch-style APIs. I tried to replic
 
 ### Example usage
 
-I used this library to build a LeNet, and trained with MNIST datasets. 
+I used this library to build a LeNet, and trained with MNIST datasets. (Note that I replaced the sigmoid in the original LeNet with ReLU, and used MaxPooling rather than AveragePooling. Other model specs are completely the same.)
 
 ```python
 model = Sequential(
@@ -22,6 +22,8 @@ model = Sequential(
     Linear(84, 10),
     )
 ```
+Training this model for 1 epoch takes roughly 7 minutes on my Apple M1 chip, while training an equivalent model using PyTorch takes 20 seconds. 
+
 ### Perform forward and backward pass
 
 ```python
@@ -31,8 +33,8 @@ loss = Cross_entropy(model, images, labels)
 # backward
 loss.backward()
 ```
+### Classify MNIST images with trained model
+![alt text](classify_results.png)
 
-Training this model for 1 epoch takes roughly 7 minutes on my Apple M1 chip, while training an equivalent model using PyTorch takes 20 seconds. 
-(Note that I replaced the sigmoid in the original LeNet with ReLU, and used MaxPooling rather than AveragePooling. Other model specs are completely the same.)
 
 
