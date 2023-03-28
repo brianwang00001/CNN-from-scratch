@@ -45,7 +45,7 @@ model.load_model('pretrained_model.npy')
 ```
 
 ### A not-too-slow NumPy implementation
-On average, a fully forward-backward-update process takes 0.071 second (LeNet, batch_size=10, on Apple M1 chip). 
+On average, a fully forward-backward-update process takes 0.072 second (LeNet, batch_size=10, on Apple M1 chip). 
 
 ```
 		forward		backward
