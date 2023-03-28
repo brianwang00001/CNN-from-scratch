@@ -36,5 +36,6 @@ loss.backward()
 ### Classify MNIST images with trained model
 <img src="https://github.com/brianwang00001/CNN-from-scratch/blob/40f898cd73535191c634425a07ef7ce389442534/classify_results.png" width=525 alt="classify_result"/>
 
+### See more in Demo.ipynb!
 
 
