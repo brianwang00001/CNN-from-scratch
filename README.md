@@ -36,7 +36,7 @@ loss = Cross_entropy(model, images, labels)
 loss.backward()
 ```
 
-### Save and load a pre-trained model
+### Save and load pre-trained models
 
 ```python
 model.save_model('pretrained_model')
