@@ -360,6 +360,7 @@ class Sequential:
         assert (self.model_mode == 'forward' or self.model_mode == 'backward')
         if self.model_mode == 'forward':
             self.input = x 
+            # record of input gradient 
             for i, layer in enumerate(self.layers):
                 starting_time = time.time()
                 x = layer(x)
@@ -417,6 +418,8 @@ class Cross_entropy:
         self.label = label
         model.set_mode('forward')
         self.loss = self.cross_entropy(model(indata), label)
+        # record of input gradient
+        self.ingrad = None
 
     def __repr__(self):
         return f'{self.loss}'
@@ -438,7 +441,7 @@ class Cross_entropy:
         probs_grad = self.probs 
         probs_grad[np.arange(N), self.label] -= 1
         # backprop!
-        self.model(probs_grad)
+        self.ingrad = self.model(probs_grad)
         self.model.set_mode('forward') # set model back to forward mode 
 
     # return loss value
