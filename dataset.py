@@ -1,3 +1,8 @@
+"""
+donwload datasets from torchvision.datasets
+convert to numpy array
+"""
+
 import os
 from torchvision.datasets import MNIST
 import numpy as np
