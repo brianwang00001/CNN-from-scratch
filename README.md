@@ -66,7 +66,7 @@ Total forward + backward time : 429.9369s
 Iterations : 6000
 ```
 ### A not-too-rigid API
-Like PyTorch, we can adjust our CNN models to arbitrary layer arrangements, channels, conv kernel and maxpooling kernel sizes, strides, zeropaddings, etc. The autograd engine (naive version, of course) will do the backprop automatically.
+Like PyTorch, we can adjust our CNN models to arbitrary layer arrangements, channel sizes, conv kernel and maxpooling kernel sizes, strides, zeropaddings, etc. The autograd engine (naive version, of course) will do the backprop automatically.
 
 ### Classify MNIST images with trained model
 <img src="https://github.com/brianwang00001/CNN-from-scratch/blob/f6ab2bbf926e58a1262b2616800e2dfc2a0bbd96/classify_results.png" width=525 alt="classify_result"/>
