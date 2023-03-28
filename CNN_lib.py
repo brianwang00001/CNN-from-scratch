@@ -386,6 +386,27 @@ class Sequential:
         for layer in self.layers:
             layer.model_mode = self.model_mode
 
+    # save trained model
+    def save_model(self, model_name):
+        params = self.parameters()
+        np.save(model_name+'.npy', np.array(params, dtype=object), allow_pickle=True)
+
+    # load trained model 
+    def load_model(self, file_name):
+        # load model parameter
+        trained_params = np.load(file_name, allow_pickle=True).tolist()
+        # number of parameter to overwrite
+        num_of_param = len(trained_params)
+        for param, trained_param in zip(self.parameters(), trained_params):
+            param *= 0
+            param += trained_param
+    """
+    I must point out one bizarre issue in this section. In load_model(), if I use 
+    param = trained_param, the 'param' term will not be altered. In fact, if I 
+    use the '=' operand, the value cannot be assigned to parameter and it will remain 
+    unchanged. Only oprands like *= and += can change its value. If anyone sees this 
+    and knows the reason please let me know. Big thanks! 
+    """
 # --------------------------------------------------------------------------------------------------
 class Cross_entropy:
 
