@@ -166,7 +166,7 @@ class MaxPool2d:
         self.layer_info = f'MaxPool2d(kernel_size={kernel_size}, stride={stride}, padding={padding})'
         self.name = 'MaxPool2d '
 
-    def __repr(self):
+    def __repr__(self):
         return self.layer_info
 
     def __call__(self, indata):
@@ -266,7 +266,7 @@ class ReLU:
         self.layer_info = 'ReLU()'
         self.name = 'ReLU      '
 
-    def __repr(self):
+    def __repr__(self):
         return self.layer_info
 
     def __call__(self, indata):
@@ -297,7 +297,7 @@ class Flatten:
         self.layer_info = f'Flatten(start_dim=1, end_dim=-1)'
         self.name = 'Flatten   '
 
-    def __repr(self):
+    def __repr__(self):
         return self.layer_info
 
     def __call__(self, indata):
