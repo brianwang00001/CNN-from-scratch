@@ -24,7 +24,7 @@ model = Sequential(
     Linear(84, 10),
     )
 ```
-Training this model for 1 epoch takes roughly 7 minutes on my Apple M1 chip, while training an equivalent model using PyTorch takes 20 seconds. 
+Training this model for 1 epoch takes roughly 5 minutes on my Apple M1 chip, while training an equivalent model using PyTorch takes 20 seconds. 
 
 ### Perform forward and backward pass
 
@@ -45,24 +45,24 @@ model.load_model('pretrained_model.npy')
 ```
 
 ### A not-too-slow NumPy implementation
-On average, a fully forward-backward-update process takes 0.072 second (LeNet, batch_size=10, on Apple M1 chip). 
+On average, a full forward-backward-update process takes 0.05 second (LeNet, batch_size=10, on Apple M1 chip). 
 
 ```
 		forward		backward
-Conv2d    |	82.165s		213.087s
-ReLU      |	0.583s		0.653s
-MaxPool2d |	9.966s		45.161s
-Conv2d    |	16.570s		46.622s
-ReLU      |	0.244s		0.713s
-MaxPool2d |	2.853s		7.918s
-Flatten   |	0.170s		0.020s
-Linear    |	0.793s		1.357s
-ReLU      |	0.059s		0.111s
-Linear    |	0.178s		0.337s
-ReLU      |	0.041s		0.103s
-Linear    |	0.051s		0.182s
+Conv2d    |	19.606s		157.369s
+ReLU      |	0.633s		1.039s
+MaxPool2d |	11.346s		49.476s
+Conv2d    |	10.881s		44.958s
+ReLU      |	0.281s		0.852s
+MaxPool2d |	3.415s		9.228s
+Flatten   |	0.186s		0.026s
+Linear    |	0.904s		1.489s
+ReLU      |	0.072s		0.142s
+Linear    |	0.195s		0.338s
+ReLU      |	0.044s		0.131s
+Linear    |	0.059s		0.189s
 ----------------------------------------
-Total forward + backward time : 429.9369s
+Total forward + backward time : 312.8575s
 Iterations : 6000
 ```
 ### A not-too-rigid API
