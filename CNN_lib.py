@@ -65,6 +65,10 @@ class Conv2d:
         Hout = int((H - ksize) / S + 1)
         Wout = int((W - ksize) / S + 1)
         assert (Hout == (H - ksize) / S + 1 and Wout == (W - ksize) / S + 1)
+    
+
+        """
+        Old way of doing this.
 
         # transform multidimentional inputs into two 2d matrices
         x_col = np.zeros((ksize*ksize*in_channels, Hout*Wout*N))
@@ -75,6 +79,19 @@ class Conv2d:
             for j in range(Hout):
                 for k in range(Wout):
                     x_col[:, i*(Hout*Wout)+j*Wout+k] = indata[i, :, j*S:j*S+ksize, k*S:k*S+ksize].ravel()
+        """
+
+        # transform multidimentional inputs into two 2d matrices
+        x_col = np.zeros((ksize*ksize*in_channels, Hout*Wout*N))
+        w_row = kernel.reshape(out_channels, ksize*ksize*in_channels)
+        x_col_buffer = np.zeros((ksize*ksize*in_channels*N, Hout*Wout))
+
+        # assign values to x_col
+        for j in range(Hout):
+            for k in range(Wout):
+                x_col_buffer[:, j*Wout+k] = indata[:, :, j*S:j*S+ksize, k*S:k*S+ksize].ravel()
+        for i in range(N):
+            x_col[:, i*(Hout*Wout):(i+1)*(Hout*Wout)] = x_col_buffer[i*ksize*ksize*in_channels:(i+1)*ksize*ksize*in_channels, :]
         
         # do the necessary computation at one time
         outdata = w_row @ x_col
@@ -440,6 +457,7 @@ class Cross_entropy:
         # d(loss)/d(probs)
         probs_grad = self.probs 
         probs_grad[np.arange(N), self.label] -= 1
+        probs_grad /= N # crucial!
         # backprop!
         self.ingrad = self.model(probs_grad)
         self.model.set_mode('forward') # set model back to forward mode 
