@@ -425,6 +425,7 @@ class Sequential:
     unchanged. Only oprands like *= and += can change its value. If anyone sees this 
     and knows the reason please let me know. Big thanks! 
     """
+
 # --------------------------------------------------------------------------------------------------
 class Cross_entropy:
 
