@@ -418,13 +418,6 @@ class Sequential:
         for param, trained_param in zip(self.parameters(), trained_params):
             param *= 0
             param += trained_param
-    """
-    I must point out one bizarre issue in this section. In load_model(), if I use 
-    param = trained_param, the 'param' term will not be altered. In fact, if I 
-    use the '=' operand, the value cannot be assigned to parameter and it will remain 
-    unchanged. Only oprands like *= and += can change its value. If anyone sees this 
-    and knows the reason please let me know. Big thanks! 
-    """
 
 # --------------------------------------------------------------------------------------------------
 class Cross_entropy:
